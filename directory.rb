@@ -1,16 +1,16 @@
-#puts students into an array
+#puts students into an array storing name and cohort in hashs
 students = [
-"Dr. Hannibal Lecter",
-"Darth Vadar",
-"Nurse Ratched",
-"Michael Corleone",
-"Alex DeLarge",
-"The Wicked Witch of the West",
-"Terminator",
-"Freddy Kreuger",
-"The Joker",
-"Joffrey Baratheon",
-"Norman Bates"
+  {name: "Dr. Hannibal Lecter", cohort: :november},
+  {name: "Darth Vader", cohort: :november},
+  {name: "Nurse Ratched", cohort: :november},
+  {name: "Michael Corleone", cohort: :november},
+  {name: "Alex DeLarge", cohort: :november},
+  {name: "The Wicked Witch of the West", cohort: :november},
+  {name: "Terminator", cohort: :november},
+  {name: "Freddy Krueger", cohort: :november},
+  {name: "The Joker", cohort: :november},
+  {name: "Joffrey Baratheon", cohort: :november},
+  {name: "Norman Bates", cohort: :november}
 ]
 
 #prints header
@@ -20,17 +20,18 @@ def print_header
 end
 
 #prints student names
-def print(names)
-  names.each do |name|
-  puts name
+def print(students)
+  students.each do |student|
+    puts "#{student[:name]} (#{student[:cohort]} cohort)"
+  end
 end
 
 #prints footer
-def print_footer(names)
-  puts "Overall, we have #{names.count} great students"
+def print_footer(students)
+  puts "Overall, we have #{students.count} great students"
 end
 
 #nothing happens till we run the methods
-print_footer
+print_header
 print(students)
-print_footer
+print_footer(students)
