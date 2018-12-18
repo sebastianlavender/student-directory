@@ -25,7 +25,7 @@ def process(selection)
     when "3"
       save_students
     when "4"
-      load_students
+      choose_load_file
     when "9"
       exit #this will cause the program to terminate
     else
@@ -80,8 +80,10 @@ end
 
 #saves students to a file
 def save_students
+  puts "Please enter the filename you wish to save"
+  filename = (STDIN.gets.chomp)
   #open file for writing
-  file = File.open("students.csv", "w")
+  file = File.open(filename, "w")
   #iterate over array of students
   @students.each do |student|
     student_data = [student[:name], student[:cohort]]
@@ -101,17 +103,27 @@ def load_students(filename = "students.csv")
   file.close
 end
 
-#checks to see if the filename exists
-def try_load_students
-  filename = ARGV.first# first argument from the command line
-  load_students if filename.nil? # get out of the method if it isn't given
+def choose_load_file
+  puts "Please enter the filename you wish to load"
+  filename = STDIN.gets.chomp
+  file_exists(filename)
+end
+
+def file_exists(filename)
   if File.exists?(filename) # if it exists
     load_students(filename)
      puts "Loaded #{@students.count} from #{filename}"
   else # if it doesn't exist
     puts "Sorry, #{filename} doesn't exist."
-    exit # quit the program
+    false
   end
+end
+
+#checks to see if the filename exists
+def try_load_students
+  filename = ARGV.first# first argument from the command line
+  return load_students if filename.nil?
+  exit if file_exists(filename) == false
 end
 
 #nothing happens till we run the methods
