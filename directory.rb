@@ -49,10 +49,25 @@ def print_header
   puts "-------------"
 end
 
-#prints student names
+#filters by starting letter of the names
+def filter_letter(students)
+  puts "Do you want filter by starting letter? (yes/no)"
+  input = gets.chomp
+
+  if input == "yes"
+    puts "Please enter the letter"
+    letter = gets.chomp
+    students.select! { |student| student[:name].chars.first == letter }
+  end
+  students
+end
+
+#prints student names with number added
 def print(students)
-  students.each do |student|
-    puts "#{student[:name]} (#{student[:cohort]} cohort)"
+  students.each_with_index do |student, index|
+    if student[:name].length < 12
+      puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort)"
+    end
   end
 end
 
@@ -62,4 +77,12 @@ def print_footer(students)
 end
 
 #nothing happens till we run the methods
+<<<<<<< HEAD
 interactive_menu
+=======
+students = input_students
+students = filter_letter(students)
+print_header
+print(students)
+print_footer(students)
+>>>>>>> be6683aa1047ec812a733553f19db36dc332358c
