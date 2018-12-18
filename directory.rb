@@ -1,24 +1,9 @@
+@students = [] #an empty array accessible to all methods
+
 def interactive_menu
-  @students = [] #an empty array accessible to all methods
   loop do
     print_menu
-    # 2. read the input and save it into a variable
-    selection = gets.chomp
-    # 3. do what the user has asked
-    case selection
-      when "1"
-        input_students
-      when "2"
-        show_students
-      when "3"
-        save_students
-      when "4"
-        load_students
-      when "9"
-        exit #this will cause the program to terminate
-      else
-        puts "I don't know what you meant, try again"
-    end
+    process(STDIN.gets.chomp)
   end
 end
 
@@ -29,6 +14,23 @@ def print_menu
   puts "3. Save the list to students.csv"
   puts "4. Load the list from students.csv"
   puts "9. Exit"
+end
+
+def process(selection)
+  case selection
+    when "1"
+      input_students
+    when "2"
+      show_students
+    when "3"
+      save_students
+    when "4"
+      load_students
+    when "9"
+      exit #this will cause the program to terminate
+    else
+      puts "I don't know what you meant, try again"
+  end
 end
 
 #prints a list of students
@@ -43,14 +45,14 @@ def input_students
   puts "Please enter the names of the students"
   puts "To finish, just hit return twice"
   # get the first name
-  name = gets.chomp
+  name = (STDIN.gets.chomp)
   # while the name is not empty, repeat this code
   while !name.empty? do
     # add the student hash to the array
     @students << {name: name, cohort: :november}
     puts "Now we have #{@students.count} students"
     # get another name from the user
-    name = gets.chomp
+    name = (STDIN.gets.chomp)
   end
 end
 
@@ -86,14 +88,28 @@ def save_students
 end
 
 #loads the saved students file
-def load_students
-  file = File.open("students.csv", "r")
+def load_students(filename = "students.csv")
+  file = File.open(filename, "r")
   file.readlines.each do |line|
-    name, cohort = line.chomp.split(",")
+  name, cohort = line.chomp.split(',')
     @students << {name: name, cohort: cohort.to_sym}
   end
   file.close
 end
 
+#checks to see if the filename exists
+def try_load_students
+  filename = ARGV.first# first argument from the command line
+  return if filename.nil? # get out of the method if it isn't given
+  if File.exists?(filename) # if it exists
+    load_students(filename)
+     puts "Loaded #{@students.count} from #{filename}"
+  else # if it doesn't exist
+    puts "Sorry, #{filename} doesn't exist."
+    exit # quit the program
+  end
+end
+
 #nothing happens till we run the methods
+try_load_students
 interactive_menu
