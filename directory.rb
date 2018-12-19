@@ -56,21 +56,24 @@ end
 
 #creates a blank array and then asks the user to input names
 def input_students
-  puts "Please enter the names of the students".center(50)
+  puts "Please enter the names and cohorts of the students e.g. Dave, november".center(50)
   puts "To finish, just hit return twice".center(50)
   # get the first name
-  name = (STDIN.gets.chomp)
+  input = (STDIN.gets.chomp)
+  name = input.split(', ')[0]
+  cohort = input.split(', ')[1]
   # while the name is not empty, repeat this code
-  while !name.empty? do
+  while !input.empty? do
     # add the student hash to the array
-    add_student(name)
+    add_student(name, cohort)
     puts "Now we have #{@students.count} students".center(50)
     # get another name from the user
-    name = (STDIN.gets.chomp)
+    input = (STDIN.gets.chomp)
   end
 end
 
-def add_student(name, cohort = "november")
+def add_student(name, cohort)
+  cohort ||= "november"
   @students << {name: name, cohort: cohort.to_sym}
 end
 
