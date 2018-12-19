@@ -16,6 +16,7 @@ def print_menu
   puts "3. Save the list to students.csv"
   puts "4. Load the list from students.csv"
   puts "9. Exit"
+  puts "0. Debug"
 end
 
 def process(selection)
@@ -30,8 +31,16 @@ def process(selection)
       choose_load_file
     when "9"
       exit #this will cause the program to terminate
+    when "0"
+      debug
     else
       puts "I don't know what you meant, try again"
+  end
+end
+
+def debug
+  File.open($0, "r").readlines.each do |line|
+    puts line
   end
 end
 
