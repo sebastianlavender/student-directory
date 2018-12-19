@@ -13,8 +13,8 @@ end
 def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
-  puts "3. Save the list to students.csv"
-  puts "4. Load the list from students.csv"
+  puts "3. Save the list to a file"
+  puts "4. Load the list from a file"
   puts "5. Filter students by letter"
   puts "9. Exit"
   puts "0. Debug"
@@ -37,7 +37,7 @@ def process(selection)
     when "0"
       debug
     else
-      puts "I don't know what you meant, try again"
+      puts "I don't know what you meant, try again".center(50)
   end
 end
 
@@ -56,15 +56,15 @@ end
 
 #creates a blank array and then asks the user to input names
 def input_students
-  puts "Please enter the names of the students"
-  puts "To finish, just hit return twice"
+  puts "Please enter the names of the students".center(50)
+  puts "To finish, just hit return twice".center(50)
   # get the first name
   name = (STDIN.gets.chomp)
   # while the name is not empty, repeat this code
   while !name.empty? do
     # add the student hash to the array
     add_student(name)
-    puts "Now we have #{@students.count} students"
+    puts "Now we have #{@students.count} students".center(50)
     # get another name from the user
     name = (STDIN.gets.chomp)
   end
@@ -76,25 +76,25 @@ end
 
 #prints header
 def print_header
-  puts "The students of Villains Academy"
-  puts "-------------"
+  puts "The students of Villains Academy".center(50)
+  puts "-------------".center(50)
 end
 
 #prints student names with number added
 def print_students_list
   @students.each_with_index do |student, index|
-      puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort)"
+      puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort)".center(50)
   end
 end
 
 #prints footer
 def print_footer
-  puts "Overall, we have #{@students.count} great students"
+  puts "Overall, we have #{@students.count} great students".center(50)
 end
 
 #saves students to a file
 def save_students
-  puts "Please enter the filename you wish to save"
+  puts "Please enter the filename you wish to save".center(50)
   filename = (STDIN.gets.chomp)
   CSV.open(filename, "w") do |csv|
     @students.each do |student|
@@ -105,6 +105,7 @@ end
 
 #loads the saved students file
 def load_students(filename = "students.csv")
+  @students = [] if @students.any?
   CSV.foreach(filename) do |line|
     name, cohort = line
     add_student(name, cohort)
@@ -112,7 +113,7 @@ def load_students(filename = "students.csv")
 end
 
 def choose_load_file
-  puts "Please enter the filename you wish to load"
+  puts "Please enter the filename you wish to load".center(50)
   filename = STDIN.gets.chomp
   file_exists(filename)
 end
@@ -120,9 +121,9 @@ end
 def file_exists(filename)
   if File.exists?(filename) # if it exists
     load_students(filename)
-     puts "Loaded #{@students.count} from #{filename}"
+     puts "Loaded #{@students.count} from #{filename}".center(50)
   else # if it doesn't exist
-    puts "Sorry, #{filename} doesn't exist."
+    puts "Sorry, #{filename} doesn't exist.".center(50)
     false
   end
 end
@@ -136,11 +137,11 @@ end
 
 #filters students by staring letter
 def filter_by_letter
-    puts "Please enter the starting letter to filter by"
+    puts "Please enter the starting letter to filter by".center(50)
     letter = STDIN.gets.chomp
     @students.each_with_index do  |student, index|
       if student[:name].chars.first == letter
-        puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort)"
+        puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort)".center(50)
       end
     end
 end
