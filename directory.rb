@@ -15,6 +15,7 @@ def print_menu
   puts "2. Show the students"
   puts "3. Save the list to students.csv"
   puts "4. Load the list from students.csv"
+  puts "5. Filter students by letter"
   puts "9. Exit"
   puts "0. Debug"
 end
@@ -29,6 +30,8 @@ def process(selection)
       save_students
     when "4"
       choose_load_file
+    when "5"
+      filter_by_letter
     when "9"
       exit #this will cause the program to terminate
     when "0"
@@ -129,6 +132,17 @@ def try_load_students
   filename = ARGV.first# first argument from the command line
   return load_students if filename.nil?
   exit if file_exists(filename) == false
+end
+
+#filters students by staring letter
+def filter_by_letter
+    puts "Please enter the starting letter to filter by"
+    letter = STDIN.gets.chomp
+    @students.each_with_index do  |student, index|
+      if student[:name].chars.first == letter
+        puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort)"
+      end
+    end
 end
 
 #nothing happens till we run the methods
