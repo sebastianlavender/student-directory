@@ -83,24 +83,19 @@ def save_students
   puts "Please enter the filename you wish to save"
   filename = (STDIN.gets.chomp)
   #open file for writing
-  file = File.open(filename, "w")
-  #iterate over array of students
-  @students.each do |student|
-    student_data = [student[:name], student[:cohort]]
-    csv_line = student_data.join(",")
-    file.puts csv_line
+  File.open(filename, "w") do |line|
+    @students.each do |student|
+      line.puts [student[:name], student[:cohort]].join(",")
+    end
   end
-  file.close
 end
 
 #loads the saved students file
 def load_students(filename = "students.csv")
-  file = File.open(filename, "r")
-  file.readlines.each do |line|
+  File.open(filename, "r").readlines.each do |line|
   name, cohort = line.chomp.split(',')
     add_student(name, cohort)
   end
-  file.close
 end
 
 def choose_load_file
